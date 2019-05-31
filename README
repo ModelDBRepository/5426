@@ -1,0 +1,30 @@
+The classic HH squid axon membrane model based on:
+Hodgkin, A.L., Huxley, A.F. (1952) A quantitative description of
+membrane current and its application to conduction and
+excitation in nerve. J. Physiol. 117: 500-544.
+
+Notes:
+	The gif files are copies of original fig3 and fig6. Red lines are
+	polylines drawn using idraw. The polylines have control points
+	as near as I can place them on the circles of the data. This idraw
+	file is then read into neuron using idraw.hoc for translating, scaling
+	and copying into a Vector display tool.
+
+	The raw data in the Vector display tools, fig3k.ses and fig6na.ses
+	are in units of mS/cm2. These curves were rescaled to S/cm2 in
+	the MultipleRunFitter's. The computations in the fitters differ
+	from the original model curves of figure 3 and 6 because the
+	original model curves are fits to the data for the specific axon
+	17 whereas the curves shown in these simulations are for the
+	standard hh model.
+
+	To see the simulated curves and data from a MultipleRunFitter,
+	click on any item in the "Generators" list of the main MulRunFitter
+	panel to pop up a generator viewer
+	(It will be called MulRunFitter[0] Generators).
+	Then in the main MulRunFitter panel select "Generators/Run all".
+
+
+Questions about the representation of this model in NEURON should be
+directed to Michael.Hines@yale.edu.
+

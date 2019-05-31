@@ -1,0 +1,64 @@
+ParmFitness: Figure 3 K conductance
+	FitnessGenerator: 6 mV step from rest
+		RunConstant:	SEClamp[0].amp2 -59 -59
+				SEClamp[0].dur1 0 0
+		RegionFitness:	soma.gk_hh( 0.5 )
+
+	FitnessGenerator: 10 mV step from rest
+		RunConstant:	SEClamp[0].amp2 -55 -59
+				SEClamp[0].dur1 0 0
+		RegionFitness:	soma.gk_hh( 0.5 )
+
+	FitnessGenerator: 19 mV step from rest
+		RunConstant:	SEClamp[0].amp2 -46 -59
+				SEClamp[0].dur1 0 0
+		RegionFitness:	soma.gk_hh( 0.5 )
+
+	FitnessGenerator: 26 mV step from rest
+		RunConstant:	SEClamp[0].amp2 -39 -59
+				SEClamp[0].dur1 0 0
+		RegionFitness:	soma.gk_hh( 0.5 )
+
+	FitnessGenerator: 32 mV step from rest
+		RunConstant:	SEClamp[0].amp2 -33 -59
+				SEClamp[0].dur1 0 0
+		RegionFitness:	soma.gk_hh( 0.5 )
+
+	FitnessGenerator: 38 mV step from rest
+		RunConstant:	SEClamp[0].amp2 -27 -59
+				SEClamp[0].dur1 0 0
+		RegionFitness:	soma.gk_hh( 0.5 )
+
+	FitnessGenerator: 51 mV step from rest
+		RunConstant:	SEClamp[0].amp2 -14 -59
+				SEClamp[0].dur1 0 0
+		RegionFitness:	soma.gk_hh( 0.5 )
+
+	FitnessGenerator: 63 mV step from rest
+		RunConstant:	SEClamp[0].amp2 -2 -59
+				SEClamp[0].dur1 0 0
+		RegionFitness:	soma.gk_hh( 0.5 )
+
+	FitnessGenerator: 76 mV step from rest
+		RunConstant:	SEClamp[0].amp2 11 -59
+				SEClamp[0].dur1 0 0
+		RegionFitness:	soma.gk_hh( 0.5 )
+
+	FitnessGenerator: 88 mV step from rest
+		RunConstant:	SEClamp[0].amp2 23 -59
+				SEClamp[0].dur1 0 0
+		RegionFitness:	soma.gk_hh( 0.5 )
+
+	FitnessGenerator: 100 mV step from rest
+		RunConstant:	SEClamp[0].amp2 35 -59
+				SEClamp[0].dur1 0 0
+		RegionFitness:	soma.gk_hh( 0.5 )
+
+	FitnessGenerator: 109 mV step from rest
+		RunConstant:	SEClamp[0].amp2 44 -59
+				SEClamp[0].dur1 0 0
+		RegionFitness:	soma.gk_hh( 0.5 )
+
+	Parameters:
+		"soma.gkbar_hh( 0.5 )", 0.02431, -1e+06, 1e+06, 1, 0
+End ParmFitness

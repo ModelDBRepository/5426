@@ -1,0 +1,33 @@
+load_file("nrngui.hoc")
+create soma
+access soma
+diam=10
+L=100/(PI*diam)
+
+xpanel("HH simulations")
+xradiobutton("HH action potential", "restart() load_file(1, \"hhap.ses\")",1)
+xradiobutton("Fig 3 K data", "restart() load_file(1, \"hhk.ses\")")
+xradiobutton("Fig 6 idraw", "restart() load_file(1, \"idraw.hoc\")")
+xradiobutton("Fig 6 Na data", "restart() load_file(1, \"hhna.ses\")")
+xradiobutton("HH gk (fig 3)", "restart() load_file(1, \"hhkfit.ses\")")
+xradiobutton("HH na (fig 6)", "restart() load_file(1, \"hhnafit.ses\")")
+xpanel(10, 100)
+proc restart() {
+	objref graphItem
+	for i=0, n_graph_lists-1 {
+		graphList[i].remove_all()
+	}
+	flush_list.remove_all()
+	fast_flush_list.remove_all()
+	doNotify()
+	for (i=PWManager[0].count-1; i > 1; i -= 1) {
+		PWManager[0].close(i)
+		doNotify()
+	}
+	nseg = 1
+	diam=10
+	L=100/(PI*diam)
+}
+
+load_file("hhap.ses")
+run()

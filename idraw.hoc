@@ -1,0 +1,133 @@
+objref f, list, list,  mat, sf, g, transform, pt, scalemat, offset
+f = new File()
+sf = new StringFunctions()
+f.chooser("r", "Read idraw file", "*.id")
+strdef line, tstr
+transform = new Matrix(3, 2)
+
+proc rd() {
+	list = new List()
+	if (!f.chooser) { return }
+	f.ropen()
+	while(!f.eof) {
+		f.gets(line)
+		parse(line)
+	}
+	f.close()
+}
+
+proc parse() {
+	if( sf.head(line, "Begin %I Line", tstr) != -1 ) {
+		parseLine()
+	}
+	if( sf.head(line, "Begin %I MLine", tstr) != -1 ) {
+		parseMLine()
+	}
+}
+
+proc gettransform() {
+//	transform.scanf(f, 3, 2) // available aftger version 5.2
+	before52(transform)
+	f.gets(line)
+	scalemat = transform.bcopy(0, 0, 2, 2)
+	offset = transform.getrow(2)
+}
+
+proc dotransform() {local i
+	pt = new Vector(2)
+	for i=0, mat.nrow-1 {
+		pt = mat.getrow(i)
+		scalemat.mulv(pt, pt)
+		pt.add(offset)
+		mat.setrow(i, pt)
+	}
+}
+
+proc parseLine() {
+	for i=1, 8 { f.gets(line) }
+	gettransform()
+	mat = new Matrix(2, 2)
+//	mat.scanf(f, mat.nrow, mat.ncol) // available after version 5.2
+	before52(mat)			// implement above using Vector
+	dotransform() // transform mat	
+	list.append(mat)
+}
+
+objref tmpvec
+tmpvec = new Vector()
+proc before52() {local i
+	for i=0, $o1.nrow-1 {
+		tmpvec.scanf(f, $o1.ncol)		
+		$o1.setrow(i, tmpvec)
+	}
+}
+
+		
+
+proc parseMLine() {local i,  n
+	for i=1, 8 { f.gets(line) }
+	gettransform()
+	n = f.scanvar()
+	mat = new Matrix(n, 2)
+//	mat.scanf(f, mat.nrow, mat.ncol) //availabel after version 5.2
+	before52(mat)
+	dotransform() // transform mat	
+	list.append(mat)
+}
+
+rd()
+
+		
+proc gr() { local i, c
+	g = new Graph()
+	for i = 0, list.count - 1 {
+		mat = list.object(i)
+		c = 1
+		if (mat.nrow == 2) {
+			c = 2
+		}
+		mat.getcol(1).line(g, mat.getcol(0), c, 1)
+	}
+	g.exec_menu("View = plot")
+}
+
+gr()
+
+xpanel("tools")
+
+xscale=1
+yscale=1
+yorg = 0
+xorg = 0
+
+xvalue("x real size", "xscale", 1)
+xbutton("xorg and xscale line (grab line first)", "setscale(1)")
+xvalue("y real size", "yscale", 1)
+xbutton("yscale line", "setscale(0)")
+xbutton("yorigin line", "yorg = hoc_obj_[0].x[0]")
+xbutton("Polyline", "doit()")
+xpanel()
+
+proc setscale() {local org, sclfac
+	org = hoc_obj_[$1].x[0]
+	sclfac = hoc_obj_[$1].x[1] - org
+	if ($1 == 1) {
+		xsclfac = xscale/sclfac
+		xorg = org
+	}else{
+		ysclfac = yscale/sclfac
+	}
+}
+
+strdef tstr
+load_file("vecwrap.hoc", "VecWrap")
+makeVecWrap()
+
+proc doit() {
+	hoc_obj_.sub(yorg).mul(ysclfac)
+	hoc_obj_[1].sub(xorg).mul(xsclfac)
+	if(string_dialog("Label", tstr)) {
+		hoc_obj_.label(tstr)
+		VecWrap[0].input(hoc_obj_[1], hoc_obj_[0])
+	}
+}
